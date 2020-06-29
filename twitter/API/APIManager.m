@@ -7,6 +7,7 @@
 //
 
 #import "APIManager.h"
+#import "Tweet.h"
 
 static NSString * const baseURLString = @"https://api.twitter.com";
 static NSString * const consumerKey = @"rPoBdMQFDrvs8LSvMvS0UfvDb";
@@ -32,6 +33,7 @@ static NSString * const consumerSecret = @"5WVncDw3puJcJrcNVy337udVYT9KvQ00cWyGj
     NSURL *baseURL = [NSURL URLWithString:baseURLString];
     NSString *key = consumerKey;
     NSString *secret = consumerSecret;
+    
     // Check for launch arguments override
     if ([[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-key"]) {
         key = [[NSUserDefaults standardUserDefaults] stringForKey:@"consumer-key"];
@@ -51,25 +53,32 @@ static NSString * const consumerSecret = @"5WVncDw3puJcJrcNVy337udVYT9KvQ00cWyGj
     
     [self GET:@"1.1/statuses/home_timeline.json"
    parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
-       
-       // Manually cache the tweets. If the request fails, restore from cache if possible.
-       NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];
-       [[NSUserDefaults standardUserDefaults] setValue:data forKey:@"hometimeline_tweets"];
-
-       completion(tweetDictionaries, nil);
-       
-   } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-       
-       NSArray *tweetDictionaries = nil;
-       
-       // Fetch tweets from cache if possible
-       NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
-       if (data != nil) {
-           tweetDictionaries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-       }
-       
-       completion(tweetDictionaries, error);
-   }];
+        
+        // Success, returns array of Tweet objects
+        NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
+        
+        /* this code was causing errors
+        // Manually cache the tweets. If the request fails, restore from cache if possible.
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweets];
+        [[NSUserDefaults standardUserDefaults] setValue:data forKey:@"hometimeline_tweets"];
+         */
+        
+        completion(tweets, nil);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSMutableArray *tweets = nil;
+        
+        /* this code was causing errors
+        // Fetch tweets from cache if possible
+        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
+        if (data != nil) {
+            tweets = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        }
+         */
+        
+        completion(tweets, error);
+    }];
 }
 
 @end
