@@ -8,8 +8,13 @@
 
 #import "TimelineViewController.h"
 #import "APIManager.h"
+#import "TweetCell.h"
+#import "Tweet.h"
 
-@interface TimelineViewController ()
+@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) NSMutableArray *tweetArray;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -18,12 +23,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
-            for (NSDictionary *dictionary in tweets) {
-                NSString *text = dictionary[@"text"];
+            self.tweetArray = (NSMutableArray *) tweets;
+            for (Tweet *tweet in self.tweetArray) {
+                NSString *text = tweet.text;
                 NSLog(@"%@", text);
             }
         } else {
@@ -31,6 +40,40 @@
         }
     }];
 }
+
+// Configures TweetCells
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    
+    // Creates TweetCell and uses cells with identifier MovieCell
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
+    
+    // Associates correct tweet with correct row
+    Tweet *tweet = self.tweetArray[indexPath.row];
+    
+    cell.favoriteCountLabel.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
+    
+    // Default prefix for the poster image URLS
+    //NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
+    //NSString *posterURLString = movie[@"poster_path"];
+    //NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
+    
+    // NSURL is basically a string that check to see if it's a valid URL
+    //NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
+    
+    // Prevent any possible flickering effects by clearing out previous image
+    //cell.posterView.image = nil;
+    
+    // Assign the image from the posterURL to the posterView for each cell
+    //[cell.posterView setImageWithURL:posterURL];
+    
+    return cell;
+    
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.tweetArray.count;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
