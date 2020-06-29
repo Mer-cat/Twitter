@@ -1,6 +1,6 @@
-# Project 3 - *Name of App Here*
+# Project 3 - *Twittier*
 
-**Name of your app** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
+**Twittierp** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
 Time spent: **X** hours spent in total
 
@@ -8,8 +8,8 @@ Time spent: **X** hours spent in total
 
 The following **required** functionality is completed:
 
-- [ ] User sees app icon in home screen and styled launch screen
-- [ ] User can sign in using OAuth login flow
+- [X] User sees app icon in home screen and styled launch screen
+- [X] User can sign in using OAuth login flow
 - [ ] User can Logout
 - [ ] User can view last 20 tweets from their home timeline
 - [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
@@ -46,7 +46,7 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
+1. Encrypting API keys
 2.
 
 ## Video Walkthrough
