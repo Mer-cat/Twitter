@@ -10,12 +10,13 @@
 
 @implementation User
 
-// Initializes properties
+// Initializes user properties
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
         self.name = dictionary[@"name"];
         self.screenName = dictionary[@"screen_name"];
+        self.profileImageUrl = dictionary[@"profile_image_url_https"];
     }
     return self;
 }
