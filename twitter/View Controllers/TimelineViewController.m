@@ -10,6 +10,7 @@
 #import "APIManager.h"
 #import "TweetCell.h"
 #import "Tweet.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -35,6 +36,8 @@
                 NSString *text = tweet.text;
                 NSLog(@"%@", text);
             }
+            [self.tableView reloadData];
+            
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
@@ -50,21 +53,26 @@
     // Associates correct tweet with correct row
     Tweet *tweet = self.tweetArray[indexPath.row];
     
-    cell.favoriteCountLabel.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
     
-    // Default prefix for the poster image URLS
-    //NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
-    //NSString *posterURLString = movie[@"poster_path"];
-    //NSString *fullPosterURLString = [baseURLString stringByAppendingString:posterURLString];
+    // Set labels
+    cell.tweetTextLabel.text = tweet.text;
+    cell.tweeterNameLabel.text = tweet.user.name;
+    cell.tweeterScreenNameLabel.text = [@"@" stringByAppendingString:tweet.user.screenName];
+    cell.tweetDateLabel.text = tweet.createdAtString;
     
-    // NSURL is basically a string that check to see if it's a valid URL
-    //NSURL *posterURL = [NSURL URLWithString:fullPosterURLString];
+    
+    cell.favoriteCountLabel.text = [NSString stringWithFormat:@"Favorites: %d", tweet.favoriteCount];
+    cell.retweetCountLabel.text =[NSString stringWithFormat:@"Retweets: %d", tweet.retweetCount];
+    
+    // Set profile picture for user who tweeted
+
+    NSURL *profileImageURL = [NSURL URLWithString:tweet.user.profileImageUrl];
     
     // Prevent any possible flickering effects by clearing out previous image
-    //cell.posterView.image = nil;
+    cell.profileImage.image = nil;
     
-    // Assign the image from the posterURL to the posterView for each cell
-    //[cell.posterView setImageWithURL:posterURL];
+    // Assign the image from the profile picture URL to the profile image for each cell
+    [cell.profileImage setImageWithURL:profileImageURL];
     
     return cell;
     
