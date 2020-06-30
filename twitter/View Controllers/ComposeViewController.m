@@ -22,9 +22,12 @@
     [super viewDidLoad];
 }
 
+// Cancel tweet upon close button press
 - (IBAction)dismissComposeView:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
+
+// Finish tweet and post it upon tweet button press
 - (IBAction)finishAndSendTweet:(id)sender {
     [[APIManager shared] postStatusWithText:self.composeTweetTextView.text completion:^(Tweet *tweet, NSError *error) {
         if(tweet) {
