@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSMutableArray *tweetArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -27,20 +28,36 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
+    // Make initial network call to load timeline
+    [self beginRefresh];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    // For changing color of refresh spinner
+    //[self.refreshControl setTintColor:[UIColor whiteColor]];
+    
+    // Refreshes the tweets each time the user pulls down on screen
+    [self.refreshControl addTarget:self action:@selector(beginRefresh) forControlEvents:UIControlEventValueChanged];
+    
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+}
+
+- (void)beginRefresh {
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             self.tweetArray = (NSMutableArray *) tweets;
-            for (Tweet *tweet in self.tweetArray) {
-                NSString *text = tweet.text;
-                NSLog(@"%@", text);
-            }
+//            for (Tweet *tweet in self.tweetArray) {
+//                NSString *text = tweet.text;
+//                NSLog(@"%@", text);
+//            }
             [self.tableView reloadData];
             
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
+        
+        [self.refreshControl endRefreshing];
     }];
 }
 
