@@ -165,10 +165,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="LGE-jF-8Ba">
-                                <rect key="frame" x="0.0" y="56" width="414" height="518"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="259"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -180,12 +179,12 @@
                     <navigationItem key="navigationItem" id="aVE-Gn-Cjz">
                         <barButtonItem key="leftBarButtonItem" title="Close" id="eRE-Y4-h8h">
                             <connections>
-                                <action selector="dismissComposeView:" destination="3wZ-AY-7IB" id="v3w-B6-fSk"/>
+                                <action selector="didTapCloseComposeView:" destination="3wZ-AY-7IB" id="v3w-B6-fSk"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Tweet" id="Swe-Mu-Ezu">
                             <connections>
-                                <action selector="finishAndSendTweet:" destination="3wZ-AY-7IB" id="SkK-ft-NT7"/>
+                                <action selector="didTapPostTweet:" destination="3wZ-AY-7IB" id="SkK-ft-NT7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
