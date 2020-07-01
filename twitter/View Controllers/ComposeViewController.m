@@ -29,7 +29,8 @@
 
 // Finish tweet and post it upon tweet button press
 - (IBAction)didTapPostTweet:(id)sender {
-    [[APIManager shared] postStatusWithText:self.composeTweetTextView.text completion:^(Tweet *tweet, NSError *error) {
+    NSString *tweetText = self.composeTweetTextView.text;
+    [[APIManager shared] postStatusWithText:tweetText completion:^(Tweet *tweet, NSError *error) {
         if(tweet) {
             [self.delegate didTweet:tweet];
             [self dismissViewControllerAnimated:true completion:nil];
@@ -40,6 +41,9 @@
         }
     }];
 }
+
+@end
+
 
 
 
@@ -53,4 +57,4 @@
 }
 */
 
-@end
+
