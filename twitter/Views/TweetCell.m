@@ -15,13 +15,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 /**
@@ -95,18 +92,18 @@
             }
         }];
     } else {  // When trying to un-retweet
-        
-        // Send a POST request to un-retweet
-        [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
-            if (error){
-                NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);
-            } else {
-                self.tweet.retweeted = NO;
-                self.tweet.retweetCount -= 1;
-                [self refreshData];
-                NSLog(@"Successfully un-retweeted the following Tweet: %@", tweet.text);
-            }
-        }];
+        //Temporarily disabled until API request is fixed
+//        // Send a POST request to un-retweet
+//        [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
+//            if (error){
+//                NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);
+//            } else {
+//                self.tweet.retweeted = NO;
+//                self.tweet.retweetCount -= 1;
+//                [self refreshData];
+//                NSLog(@"Successfully un-retweeted the following Tweet: %@", tweet.text);
+//            }
+//        }];
     }
 }
 
