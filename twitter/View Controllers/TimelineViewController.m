@@ -43,64 +43,43 @@
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
+/**
+ * Re-load the user's timeline
+ */
 - (void)beginRefresh {
-    // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             self.tweetArray = (NSMutableArray *) tweets;
-//            for (Tweet *tweet in self.tweetArray) {
-//                NSString *text = tweet.text;
-//                NSLog(@"%@", text);
-//            }
             [self.tableView reloadData];
             
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
-        
         [self.refreshControl endRefreshing];
     }];
 }
 
-// Configures TweetCells
+/**
+ * Configures TweetCells
+ */
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     // Creates TweetCell and uses cells with identifier MovieCell
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     
-    // Associates correct tweet with correct row
+    // Associates correct tweet with correct row and cell
     Tweet *tweet = self.tweetArray[indexPath.row];
+    cell.tweet = tweet;
     
-    
-    // Set labels
-    cell.tweetTextLabel.text = tweet.text;
-    cell.tweeterNameLabel.text = tweet.user.name;
-    cell.tweeterScreenNameLabel.text = [@"@" stringByAppendingString:tweet.user.screenName];
-    cell.tweetDateLabel.text = tweet.createdAtString;
-    
-    
-    cell.favoriteCountLabel.text = [NSString stringWithFormat:@"Favorites: %d", tweet.favoriteCount];
-    cell.retweetCountLabel.text =[NSString stringWithFormat:@"Retweets: %d", tweet.retweetCount];
-    
-    // Set profile picture for user who tweeted
-
-    NSURL *profileImageURL = [NSURL URLWithString:tweet.user.profileImageUrl];
-    
-    // Prevent any possible flickering effects by clearing out previous image
-    cell.profileImage.image = nil;
-    
-    // Assign the image from the profile picture URL to the profile image for each cell
-    [cell.profileImage setImageWithURL:profileImageURL];
+    [cell refreshData];
     
     return cell;
-    
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.tweetArray.count;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -108,6 +87,7 @@
 }
 
 - (void)didTweet:(nonnull Tweet *)tweet {
+    
     // Add newly composed tweet to beginning of array and reload tableView
     [self.tweetArray insertObject:tweet atIndex:0];
     [self.tableView reloadData];
