@@ -49,45 +49,60 @@ static NSString * const consumerSecret = @"5WVncDw3puJcJrcNVy337udVYT9KvQ00cWyGj
     return self;
 }
 
-// Acquires data (i.e. tweets) for home timeline
+/**
+ * Acquires data (i.e. tweets) for home timeline
+ */
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
     
-    [self GET:@"1.1/statuses/home_timeline.json"
+    [self GET:@"1.1/statuses/home_timeline.json?tweet_mode=extended"
    parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
         
         // Success, returns array of Tweet objects
         NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
-        
-        /* this code was causing errors
-        // Manually cache the tweets. If the request fails, restore from cache if possible.
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweets];
-        [[NSUserDefaults standardUserDefaults] setValue:data forKey:@"hometimeline_tweets"];
-         */
-        
         completion(tweets, nil);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
         NSMutableArray *tweets = nil;
-        
-        /* this code was causing errors
-        // Fetch tweets from cache if possible
-        NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
-        if (data != nil) {
-            tweets = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        }
-         */
-        
         completion(tweets, error);
     }];
 }
 
-// Allows user to compose and post tweet to Twitter
+/**
+ * Allows user to compose and post tweet to Twitter
+ */
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *, NSError *))completion {
     NSString *urlString = @"1.1/statuses/update.json";
     NSDictionary *parameters = @{@"status": text};
     
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable tweetDictionary) {
+        Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
+        completion(tweet, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+}
+
+/**
+ * Allows user to favorite a tweet
+ */
+- (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion{
+    NSString *urlString = @"1.1/favorites/create.json";
+    NSDictionary *parameters = @{@"id": tweet.idStr};
+    [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
+        Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
+        completion(tweet, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+}
+
+/**
+ * Allows user to un-favorite a tweet
+ */
+- (void)unfavorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion{
+    NSString *urlString = @"1.1/favorites/destroy.json";
+    NSDictionary *parameters = @{@"id": tweet.idStr};
+    [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
         Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
         completion(tweet, nil);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
