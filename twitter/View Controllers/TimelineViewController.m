@@ -16,6 +16,9 @@
 #import "LoginViewController.h"
 #import "TweetDetailsViewController.h"
 
+/**
+ * View controller for the user's main timeline, where they can see 20 tweets and navigate to other views
+ */
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *tweetArray;
@@ -36,8 +39,7 @@
     [self beginRefresh];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
-    // For changing color of refresh spinner
-    //[self.refreshControl setTintColor:[UIColor whiteColor]];
+    [self.refreshControl setTintColor:[UIColor blueColor]];
     
     // Refreshes the tweets each time the user pulls down on screen
     [self.refreshControl addTarget:self action:@selector(beginRefresh) forControlEvents:UIControlEventValueChanged];
@@ -51,12 +53,12 @@
 - (void)beginRefresh {
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
-            NSLog(@"😎😎😎 Successfully loaded home timeline");
+            NSLog(@"Successfully loaded home timeline");
             self.tweetArray = (NSMutableArray *) tweets;
             [self.tableView reloadData];
             
         } else {
-            NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
+            NSLog(@"Error getting home timeline: %@", error.localizedDescription);
         }
         [self.refreshControl endRefreshing];
     }];
@@ -83,9 +85,10 @@
     return self.tweetArray.count;
 }
 
+/**
+ * Adds newly composed tweet to timeline tweets
+ */
 - (void)didTweet:(nonnull Tweet *)tweet {
-    
-    // Add newly composed tweet to beginning of array and reload tableView
     [self.tweetArray insertObject:tweet atIndex:0];
     [self.tableView reloadData];
 }
@@ -118,13 +121,13 @@
         ComposeViewController *composeController = (ComposeViewController *)navigationController.topViewController;
         composeController.delegate = self;
     } else if([segue.identifier isEqualToString:@"TweetDetailsViewSegue"]){
-
+        
         // For Tweet Details View Controller
         TweetCell *tappedCell = sender;
         Tweet *tweet = tappedCell.tweet;
         TweetDetailsViewController *tweetDetailsViewController = [segue destinationViewController];
         tweetDetailsViewController.tweet = tweet;
     }
-       }
+}
 
 @end

@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * The encapsulation of a Twitter user's basic properties
+ */
 @interface User : NSObject
 
 // MARK: Properties
@@ -17,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *screenName;
 @property (nonatomic, strong) NSString *profileImageUrl;
 
-// Create initializer
+// MARK: Methods
 - (instancetype)initWithDictionary:(NSDictionary *) dictionary;
 
 @end

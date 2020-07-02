@@ -13,6 +13,9 @@ static NSString * const baseURLString = @"https://api.twitter.com";
 static NSString * const consumerKey = @"rPoBdMQFDrvs8LSvMvS0UfvDb";
 static NSString * const consumerSecret = @"5WVncDw3puJcJrcNVy337udVYT9KvQ00cWyGjtSOEkElISR1r2";
 
+/**
+ * This class handles network calls to the Twitter API
+ */
 @interface APIManager()
 
 @end

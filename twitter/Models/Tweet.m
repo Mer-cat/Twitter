@@ -12,6 +12,9 @@
 
 @implementation Tweet
 
+/**
+ * Initializes a tweet object
+ */
 - (instancetype)initWithDictionary:(NSDictionary *) dictionary {
     self = [super init];
     if(self) {

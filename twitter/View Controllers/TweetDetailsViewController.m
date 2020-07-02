@@ -12,6 +12,9 @@
 #import "APIManager.h"
 #import "ComposeViewController.h"
 
+/**
+ * Users may tap on a tweet cell in the timeline to get to this view controller, which shows the tweet details
+ */
 @interface TweetDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *tweeterNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
@@ -27,7 +30,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self loadTweet];
 }
 
@@ -52,11 +54,13 @@
     
 }
 
+/**
+ *  Allows user to favorite or un-favorite a tweet by tapping the favorite symbol
+ */
 - (IBAction)didTapFavorite:(id)sender {
     
     // Tweet is not currently favorited by user
     if(!self.tweet.favorited){
-        // Send a POST request to the POST favorites/create endpoint
         [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
@@ -71,7 +75,6 @@
             }
         }];
     } else {  // When trying to unfavorite
-        // Send a POST request to unfavorite
         [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
@@ -85,10 +88,13 @@
     }
 }
 
+/**
+ * Allows user to retweet or un-retweet a tweet by tapping the retweet symbol
+ */
 - (IBAction)didTapRetweet:(id)sender {
+    
     // Tweet has not already been retweeted by user
     if(!self.tweet.retweeted) {
-        // Send a POST request to the POST retweets endpoint
         [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
@@ -100,7 +106,6 @@
             }
         }];
     } else {  // When trying to un-retweet
-        // Send a POST request to un-retweet
         [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);

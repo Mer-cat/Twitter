@@ -9,6 +9,9 @@
 #import "LoginViewController.h"
 #import "APIManager.h"
 
+/**
+ * View controller for the login screen
+ */
 @interface LoginViewController ()
 
 @end

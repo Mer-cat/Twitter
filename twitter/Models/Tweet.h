@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * The encapsulation of the properties of a Tweet
+ */
 @interface Tweet : NSObject
 
 // MARK: Properties

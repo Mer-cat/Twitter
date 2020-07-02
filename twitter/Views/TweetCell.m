@@ -44,11 +44,13 @@
     [self.profileImage setImageWithURL: profileImageURL];
 }
 
+/**
+ *  Allows user to favorite or un-favorite a tweet by tapping the favorite symbol
+ */
 - (IBAction)didTapFavorite:(id)sender {
     
     // Tweet is not currently favorited by user
     if(!self.tweet.favorited){
-        // Send a POST request to the POST favorites/create endpoint
         [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
@@ -56,14 +58,13 @@
                 self.tweet.favorited = YES;
                 self.tweet.favoriteCount += 1;
                 
-                //Update cell UI
+                // Update cell UI
                 [self refreshData];
                 
                 NSLog(@"Successfully favorited the following Tweet: %@", self.tweet.text);
             }
         }];
     } else {  // When trying to unfavorite
-        // Send a POST request to unfavorite
         [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error unfavoriting tweet: %@", error.localizedDescription);
@@ -77,10 +78,12 @@
     }
 }
 
+/**
+ * Allows user to retweet or un-retweet a tweet by tapping the retweet symbol
+ */
 - (IBAction)didTapRetweet:(id)sender {
     // Tweet has not already been retweeted by user
     if(!self.tweet.retweeted) {
-        // Send a POST request to the POST retweets endpoint
         [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
@@ -92,7 +95,6 @@
             }
         }];
     } else {  // When trying to un-retweet
-        // Send a POST request to un-retweet
         [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
             if (error){
                 NSLog(@"Error un-retweeting tweet: %@", error.localizedDescription);

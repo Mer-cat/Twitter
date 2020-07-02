@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<ComposeViewControllerDelegate> delegate;
 @property (nonatomic, strong) Tweet *inReplyToTweet;
 @property (nonatomic) BOOL replyingTo;
+
 @end
 
 @protocol ComposeViewControllerDelegate
