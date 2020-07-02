@@ -26,4 +26,6 @@
 
 - (void)unretweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
 
+- (void)reply:(NSString *)text inReplyTo:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion;
+
 @end
