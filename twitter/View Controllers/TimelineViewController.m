@@ -14,6 +14,7 @@
 #import "ComposeViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "TweetDetailsViewController.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -108,11 +109,22 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    // Designates this view controller as composeViewController's delegate such that
-    // we may call methods from this view controller
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController *)navigationController.topViewController;
-    composeController.delegate = self;
-}
+    // Uses segue indentifiers to decide what information to pass
+    if([segue.identifier isEqualToString:@"ComposeViewSegue"]){
+        
+        // Designates this view controller as composeViewController's delegate such that
+        // we may call methods from this view controller
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController *)navigationController.topViewController;
+        composeController.delegate = self;
+    } else if([segue.identifier isEqualToString:@"TweetDetailsViewSegue"]){
+
+        // For Tweet Details View Controller
+        TweetCell *tappedCell = sender;
+        Tweet *tweet = tappedCell.tweet;
+        TweetDetailsViewController *tweetDetailsViewController = [segue destinationViewController];
+        tweetDetailsViewController.tweet = tweet;
+    }
+       }
 
 @end
