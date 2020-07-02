@@ -20,7 +20,7 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-- [ ] Tweet Details Page: User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
+- [X] Tweet Details Page: User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
 - [ ] User can view their profile in a *profile tab*
   - Contains the user header view: picture and tagline
   - Contains a section with the users basic stats: # tweets, # following, # followers
@@ -47,7 +47,7 @@ The following **additional** features are implemented:
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. Encrypting API keys
-2.
+2. Different ways to encapsulate code
 
 ## Video Walkthrough
 
@@ -59,7 +59,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+I encountered some interesting problems while building this app. For example, I discovered that trying to tweet a message including a question mark would cause an authorization error response. I also attempted to show newly-composed tweets immediately in the timeline without refetching the timeline from the network, but encountered issues with the tweet body text showing, perhaps due to async issues.
 
 ## Credits
 
@@ -70,7 +70,7 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2020] [Mercy Bickell]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
