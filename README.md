@@ -33,7 +33,7 @@ The following **optional** features are implemented:
   - Contains a section with the users basic stats: # tweets, # following, # followers
 - [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 - [ ] When composing, you should have a countdown for the number of characters remaining for the tweet (out of 280)
-- [ ] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
+- [X] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
 - [ ] User can reply to any tweet, and replies should be prefixed with the username and the reply_id should be set when posting the tweet
 - [ ] User sees embedded images in tweet if available
 - [ ] User can switch between timeline, mentions, or profile view through a tab bar
@@ -59,7 +59,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-I encountered some interesting problems while building this app. For example, I discovered that trying to tweet a message including a question mark would cause an authorization error response. I also attempted to show newly-composed tweets immediately in the timeline without refetching the timeline from the network, but encountered issues with the tweet body text showing, perhaps due to async issues.
+I encountered some interesting problems while building this app. For example, I discovered that trying to tweet a message including a question mark would cause an authorization error response. I also encountered an issue in getting tweets in the extended tweet mode but not being able to show newly-composed tweets immediately on the timeline. The issue turned out to be with setting my post request to also use the extended tweet mode.
 
 ## Credits
 
