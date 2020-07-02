@@ -30,22 +30,33 @@
 // Finish tweet and post it upon tweet button press
 - (IBAction)didTapPostTweet:(id)sender {
     NSString *tweetText = self.composeTweetTextView.text;
-    [[APIManager shared] postStatusWithText:tweetText completion:^(Tweet *tweet, NSError *error) {
-        if(tweet) {
-            [self.delegate didTweet:tweet];
-            [self dismissViewControllerAnimated:true completion:nil];
-            NSLog(@"Successfully tweeted");
-        }
-        else {
-             NSLog(@"Error posting tweet: %@", error.localizedDescription);
-        }
-    }];
+    if(!self.replyingTo) {
+        [[APIManager shared] postStatusWithText:tweetText completion:^(Tweet *tweet, NSError *error) {
+            if(tweet) {
+                [self.delegate didTweet:tweet];
+                [self dismissViewControllerAnimated:true completion:nil];
+                NSLog(@"Successfully tweeted");
+            }
+            else {
+                NSLog(@"Error posting tweet: %@", error.localizedDescription);
+            }
+        }];
+    } else {
+        //if replying to a tweet
+        [[APIManager shared] reply:tweetText inReplyTo:self.inReplyToTweet completion:^(Tweet *tweet, NSError *error) {
+            if(tweet) {
+                [self.delegate didTweet:tweet];
+                [self dismissViewControllerAnimated:true completion:nil];
+                NSLog(@"Successfully replied to tweet");
+            }
+            else {
+                NSLog(@"Error replying to tweet: %@", error.localizedDescription);
+            }
+        }];
+    }
 }
 
 @end
-
-
-
 
 /*
 #pragma mark - Navigation
