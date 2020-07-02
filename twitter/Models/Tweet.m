@@ -8,6 +8,7 @@
 
 #import "Tweet.h"
 #import "User.h"
+#import "DateTools.h"
 
 @implementation Tweet
 
@@ -22,6 +23,7 @@
             self.retweetedByUser = [[User alloc] initWithDictionary:userDictionary];
             
             // Change tweet to original tweet
+            // This simplifies unretweeting functionality
             dictionary = originalTweet;
         }
         self.idStr = dictionary[@"id_str"];
@@ -31,6 +33,7 @@
         self.retweetCount = [dictionary[@"retweet_count"] intValue];
         self.retweeted = [dictionary[@"retweeted"] boolValue];
         
+        
         // Initialize user
         NSDictionary *user = dictionary[@"user"];
         self.user = [[User alloc] initWithDictionary:user];
@@ -38,12 +41,15 @@
         // Format createdAt date string
         NSString *createdAtOriginalString = dictionary[@"created_at"];
         self.createdAtString = [self formatCreatedAtDate:createdAtOriginalString];
+        self.timeSinceString = [self formatTimeSinceDate:createdAtOriginalString];
         
     }
     return self;
 }
 
-// Given an array of Tweet dictionaries, return the tweets in them
+/**
+ * Given an array of Tweet dictionaries, return the tweets in them
+ */
 + (NSMutableArray *)tweetsWithArray:(NSArray *)dictionaries{
     NSMutableArray *tweets = [NSMutableArray array];
     for (NSDictionary *dictionary in dictionaries){
@@ -53,7 +59,9 @@
     return tweets;
 }
 
-
+/**
+ * Returns a formatted version of the date the tweet was created
+ */
 - (NSString *)formatCreatedAtDate:(NSString *) createdAtOriginalString {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     
@@ -69,6 +77,22 @@
     
     // Convert date to String and return
     return [formatter stringFromDate:date];
+}
+
+/**
+ * Returns the time since the tweet was created as a string
+ */
+- (NSString *)formatTimeSinceDate:(NSString *) createdAtOriginalString {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    // Configure the input format to parse the date string
+    formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+    
+    // Convert String to Date and format as time since date
+    NSDate *date = [formatter dateFromString:createdAtOriginalString];
+    NSString *timeSinceDate = [date shortTimeAgoSinceNow];
+    
+    return timeSinceDate;
 }
 
 @end
