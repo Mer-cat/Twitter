@@ -32,7 +32,6 @@
     self.tableView.delegate = self;
     
     // Make initial network call to load timeline
-    NSLog(@"calling viewDidLoad");
     [self beginRefresh];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
