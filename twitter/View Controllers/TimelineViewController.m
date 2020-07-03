@@ -113,20 +113,29 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     // Uses segue indentifiers to decide what information to pass
-    if([segue.identifier isEqualToString:@"ComposeViewSegue"]){
+    if([segue.identifier isEqualToString:@"ComposeViewSegue"]) {
         
         // Designates this view controller as composeViewController's delegate such that
         // we may call methods from this view controller
         UINavigationController *navigationController = [segue destinationViewController];
         ComposeViewController *composeController = (ComposeViewController *)navigationController.topViewController;
         composeController.delegate = self;
-    } else if([segue.identifier isEqualToString:@"TweetDetailsViewSegue"]){
+    } else if([segue.identifier isEqualToString:@"TweetDetailsViewSegue"]) {
         
         // For Tweet Details View Controller
         TweetCell *tappedCell = sender;
         Tweet *tweet = tappedCell.tweet;
         TweetDetailsViewController *tweetDetailsViewController = [segue destinationViewController];
         tweetDetailsViewController.tweet = tweet;
+    } else if([segue.identifier isEqualToString:@"ReplyViewSegue"]) {
+        // Allows replies to tweets from home timeline
+        UIButton *tappedButton = sender;
+        TweetCell *tweetCell = (TweetCell *) tappedButton.superview.superview;
+        Tweet *tweet = tweetCell.tweet;
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController *)navigationController.topViewController;
+        composeController.inReplyToTweet = tweet;
+        composeController.replyingTo = YES;
     }
 }
 

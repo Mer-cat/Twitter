@@ -141,6 +141,17 @@
                                                         <action selector="didTapFavorite:" destination="zjE-64-NFL" eventType="touchUpInside" id="EJJ-kR-tno"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QP4-lJ-ik9">
+                                                    <rect key="frame" x="149" y="75.5" width="33" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="dLV-r8-q6D"/>
+                                                        <constraint firstAttribute="width" constant="33" id="sWh-U1-UO7"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="reply-icon"/>
+                                                    <connections>
+                                                        <segue destination="48F-in-QUt" kind="presentation" identifier="ReplyViewSegue" id="IWk-1A-3r5"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="6qE-JI-ZyT" firstAttribute="leading" secondItem="zng-0d-9v4" secondAttribute="trailing" id="1UT-h9-Adh"/>
@@ -153,7 +164,9 @@
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="ekz-mn-Sch" secondAttribute="bottom" constant="3" id="Jh6-bM-4AP"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="b7q-l0-cFA" secondAttribute="bottom" constant="10" id="LDY-YO-vVD"/>
                                                 <constraint firstItem="NjU-05-22Q" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2qM-0T-yYn" secondAttribute="trailing" constant="8" id="MDb-hE-WC4"/>
+                                                <constraint firstItem="zng-0d-9v4" firstAttribute="leading" secondItem="QP4-lJ-ik9" secondAttribute="trailing" constant="38" id="S1u-zw-5Ra"/>
                                                 <constraint firstItem="NjU-05-22Q" firstAttribute="firstBaseline" secondItem="2qM-0T-yYn" secondAttribute="firstBaseline" id="Vey-UU-TXs"/>
+                                                <constraint firstItem="ekz-mn-Sch" firstAttribute="centerY" secondItem="QP4-lJ-ik9" secondAttribute="centerY" id="ZRf-zW-tfw"/>
                                                 <constraint firstItem="b7q-l0-cFA" firstAttribute="top" secondItem="r1Q-X7-eN6" secondAttribute="top" constant="11" id="boa-3b-GBC"/>
                                                 <constraint firstItem="kME-sv-PYq" firstAttribute="top" secondItem="boE-Cd-bc9" secondAttribute="bottom" constant="8" id="fNY-55-vCz"/>
                                                 <constraint firstItem="2qM-0T-yYn" firstAttribute="firstBaseline" secondItem="boE-Cd-bc9" secondAttribute="firstBaseline" id="hVA-eV-ojO"/>
@@ -445,7 +458,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="h7e-lG-JL0"/>
+        <segue reference="IWk-1A-3r5"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="TwitterLogoBlue" width="200" height="200"/>
@@ -453,6 +466,7 @@
         <image name="edit-icon" width="30" height="27"/>
         <image name="favor-icon" width="30" height="30"/>
         <image name="favor-icon-1" width="30" height="30"/>
+        <image name="reply-icon" width="30" height="30"/>
         <image name="reply-icon-1" width="30" height="30"/>
         <image name="retweet-icon" width="30" height="30"/>
         <image name="retweet-icon-1" width="30" height="30"/>
