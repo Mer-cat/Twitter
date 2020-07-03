@@ -56,7 +56,6 @@ static NSString * const consumerSecret = @"5WVncDw3puJcJrcNVy337udVYT9KvQ00cWyGj
  * Acquires data (i.e. tweets) for home timeline
  */
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
-    
     [self GET:@"1.1/statuses/home_timeline.json?tweet_mode=extended"
    parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
         
@@ -73,7 +72,7 @@ static NSString * const consumerSecret = @"5WVncDw3puJcJrcNVy337udVYT9KvQ00cWyGj
  * Allows user to compose and post tweet to Twitter
  */
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *, NSError *))completion {
-    NSString *urlString = @"1.1/statuses/update.json";
+    NSString *urlString = @"1.1/statuses/update.json?tweet_mode=extended";
     NSDictionary *parameters = @{@"status": text};
     
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable tweetDictionary) {
@@ -142,8 +141,14 @@ static NSString * const consumerSecret = @"5WVncDw3puJcJrcNVy337udVYT9KvQ00cWyGj
  * Allows user to reply to a certain tweet
  */
 - (void)reply:(NSString *)text inReplyTo:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
-    NSString *urlString = @"1.1/statuses/update.json";
-    NSDictionary *parameters = @{@"status": text, @"in_reply_to_status_id": tweet.idStr};
+    NSString *urlString = @"1.1/statuses/update.json?tweet_mode=extended";
+    
+    // Tweet must begin with @username of person replied to for Twitter API to recognize it as reply
+    NSString *userReplyingTo = [@"@" stringByAppendingString:tweet.user.screenName];
+    NSString *textWithWhitespace = [@" " stringByAppendingString:text];
+    NSString *textWithUsername = [userReplyingTo stringByAppendingString:textWithWhitespace];
+    
+    NSDictionary *parameters = @{@"status": textWithUsername, @"in_reply_to_status_id": tweet.idStr};
     
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable tweetDictionary) {
         Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
