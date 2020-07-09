@@ -82,19 +82,16 @@
     
     // Construct what the new text would be if user's latest edit is allowed
     NSString *newText = [self.composeTweetTextView.text stringByReplacingCharactersInRange:range withString:text];
-    
+    NSInteger newTextLength = [newText length];
     // Update Character Count Label
-    NSUInteger charactersRemaining = self.characterLimit - newText.length;
-    
-    // Quick fix for overflow issues
-    if(charactersRemaining < 0 || charactersRemaining > 280) {
-        charactersRemaining = 0;
+
+    if(newTextLength <= self.characterLimit){
+        NSInteger charactersRemaining = self.characterLimit - newTextLength;
+        self.charactersRemainingLabel.text = [NSString stringWithFormat:@"%ld/%ld", charactersRemaining, self.characterLimit];
     }
     
-    self.charactersRemainingLabel.text = [NSString stringWithFormat:@"%lu/%ld", charactersRemaining, self.characterLimit];;
-    
     // Returns YES as long as user has not exceeded character limit
-    return newText.length <= self.characterLimit;
+    return newTextLength <= self.characterLimit;
 }
 
 @end
